@@ -5,86 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Budget Mensuel - Gestion Financière</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>💰 Budget Mensuel</h1>
+        <header class="header">
+            <h1>Budget Mensuel</h1>
             <p class="subtitle">Gérez vos finances en toute simplicité</p>
         </header>
 
-        <!-- Dashboard Résumé -->
+        <!-- Section Résumé Financier -->
         <section class="dashboard">
             <div class="summary-cards">
                 <div class="card income-card">
-                    <div class="card-icon">📈</div>
                     <div class="card-content">
                         <h3>Revenu Mensuel</h3>
-                        <p id="income-display" class="amount">0 FCFA</p>
+                        <p class="amount" id="monthly-income">0 FCFA</p>
                     </div>
                 </div>
                 
-                <div class="card expense-card">
-                    <div class="card-icon">💳</div>
+                <div class="card expenses-card">
                     <div class="card-content">
                         <h3>Total Dépenses</h3>
-                        <p id="expenses-display" class="amount">0 FCFA</p>
+                        <p class="amount" id="total-expenses">0 FCFA</p>
                     </div>
                 </div>
                 
                 <div class="card balance-card">
-                    <div class="card-icon">💵</div>
                     <div class="card-content">
                         <h3>Solde Restant</h3>
-                        <p id="balance-display" class="amount">0 FCFA</p>
+                        <p class="amount" id="remaining-balance">0 FCFA</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section Revenu -->
+        <!-- Section Configuration Revenu -->
         <section class="income-section">
-            <h2>💵 Revenu Mensuel</h2>
-            <div class="input-group">
-                <input type="number" id="income-input" placeholder="Entrez votre revenu en FCFA" min="0">
-                <button id="save-income-btn" class="btn btn-primary">Enregistrer</button>
+            <div class="card">
+                <h2>Configuration Revenu</h2>
+                <div class="form-group">
+                    <label for="income-input">Revenu Mensuel (FCFA)</label>
+                    <input type="number" id="income-input" placeholder="Entrez votre revenu mensuel" min="0">
+                    <button onclick="setIncome()" class="btn btn-primary">Définir</button>
+                </div>
             </div>
         </section>
 
-        <!-- Section Dépenses -->
-        <section class="expenses-section">
-            <h2>💸 Ajouter une Dépense</h2>
-            <form id="expense-form" class="expense-form">
-                <div class="form-row">
-                    <input type="text" id="expense-desc" placeholder="Description de la dépense" required>
-                    <input type="number" id="expense-amount" placeholder="Montant en FCFA" min="0" required>
-                </div>
-                <div class="form-row">
-                    <select id="expense-category" required>
-                        <option value="">Sélectionner une catégorie</option>
-                        <option value="logement">🏠 Logement</option>
-                        <option value="transport">🚗 Transport</option>
-                        <option value="alimentation">🍔 Alimentation</option>
-                        <option value="divertissement">🎮 Divertissement</option>
-                        <option value="sante">🏥 Santé</option>
-                        <option value="education">📚 Éducation</option>
-                        <option value="autres">📦 Autres</option>
+        <!-- Section Ajout Dépense -->
+        <section class="expense-section">
+            <div class="card">
+                <h2>Ajouter une Dépense</h2>
+                <form id="expense-form" class="expense-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expense-description">Description</label>
+                            <input type="text" id="expense-description" placeholder="Ex: Loyer, Courses..." required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="expense-amount">Montant (FCFA)</label>
+                            <input type="number" id="expense-amount" placeholder="0" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="expense-category">Catégorie</label>
+                            <select id="expense-category" required>
+                                <option value="">Sélectionner...</option>
+                                <option value="logement">Logement</option>
+                                <option value="transport">Transport</option>
+                                <option value="alimentation">Alimentation</option>
+                                <option value="sante">Santé</option>
+                                <option value="loisirs">Loisirs</option>
+                                <option value="education">Éducation</option>
+                                <option value="vetements">Vêtements</option>
+                                <option value="autres">Autres</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Ajouter la dépense</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Section Liste Dépenses -->
+        <section class="expenses-list-section">
+            <div class="card">
+                <h2>Liste des Dépenses</h2>
+                
+                <!-- Filtres -->
+                <div class="filters">
+                    <select id="category-filter" onchange="filterExpenses()">
+                        <option value="">Toutes les catégories</option>
+                        <option value="logement">Logement</option>
+                        <option value="transport">Transport</option>
+                        <option value="alimentation">Alimentation</option>
+                        <option value="sante">Santé</option>
+                        <option value="loisirs">Loisirs</option>
+                        <option value="education">Éducation</option>
+                        <option value="vetements">Vêtements</option>
+                        <option value="autres">Autres</option>
                     </select>
-                    <button type="submit" class="btn btn-success">Ajouter</button>
+                    
+                    <button onclick="clearAllExpenses()" class="btn btn-danger">Tout supprimer</button>
                 </div>
-            </form>
+                
+                <div id="expenses-list" class="expenses-list">
+                    <p class="empty-state">Aucune dépense enregistrée</p>
+                </div>
+            </div>
         </section>
 
-        <!-- Liste des Dépenses -->
-        <section class="expense-list-section">
-            <h2>📋 Liste des Dépenses</h2>
-            <div id="expense-list" class="expense-list">
-                <!-- Les dépenses seront ajoutées dynamiquement ici -->
-            </div>
-            <div id="empty-state" class="empty-state">
-                <p>Aucune dépense enregistrée pour le moment</p>
+        <!-- Section Statistiques -->
+        <section class="stats-section">
+            <div class="card">
+                <h2>Répartition par Catégorie</h2>
+                <div id="category-stats" class="category-stats">
+                    <p class="empty-state">Pas de données à afficher</p>
+                </div>
             </div>
         </section>
+    </div>
+
+    <!-- Modal de confirmation -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <h3>Confirmation</h3>
+            <p id="confirm-message">Êtes-vous sûr de vouloir supprimer cette dépense ?</p>
+            <div class="modal-actions">
+                <button onclick="closeModal()" class="btn btn-secondary">Annuler</button>
+                <button id="confirm-btn" class="btn btn-danger">Supprimer</button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
