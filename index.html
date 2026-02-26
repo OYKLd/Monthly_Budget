@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Mensuel - Gestion Financière</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Budget Mensuel</h1>
+            <p class="subtitle">Gérez vos finances en toute simplicité</p>
+        </header>
+
+        <!-- Dashboard Résumé -->
+        <section class="dashboard">
+            <div class="summary-cards">
+                <div class="card income-card">
+                    <div class="card-icon">📈</div>
+                    <div class="card-content">
+                        <h3>Revenu Mensuel</h3>
+                        <p id="income-display" class="amount">0 FCFA</p>
+                    </div>
+                </div>
+                
+                <div class="card expense-card">
+                    <div class="card-icon">💳</div>
+                    <div class="card-content">
+                        <h3>Total Dépenses</h3>
+                        <p id="expenses-display" class="amount">0 FCFA</p>
+                    </div>
+                </div>
+                
+                <div class="card balance-card">
+                    <div class="card-icon">💵</div>
+                    <div class="card-content">
+                        <h3>Solde Restant</h3>
+                        <p id="balance-display" class="amount">0 FCFA</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Revenu -->
+        <section class="income-section">
+            <h2>💵 Revenu Mensuel</h2>
+            <div class="input-group">
+                <input type="number" id="income-input" placeholder="Entrez votre revenu en FCFA" min="0">
+                <button id="save-income-btn" class="btn btn-primary">Enregistrer</button>
+            </div>
+        </section>
+
+        <!-- Section Dépenses -->
+        <section class="expenses-section">
+            <h2>💸 Ajouter une Dépense</h2>
+            <form id="expense-form" class="expense-form">
+                <div class="form-row">
+                    <input type="text" id="expense-desc" placeholder="Description de la dépense" required>
+                    <input type="number" id="expense-amount" placeholder="Montant en FCFA" min="0" required>
+                </div>
+                <div class="form-row">
+                    <select id="expense-category" required>
+                        <option value="">Sélectionner une catégorie</option>
+                        <option value="logement">🏠 Logement</option>
+                        <option value="transport">🚗 Transport</option>
+                        <option value="alimentation">🍔 Alimentation</option>
+                        <option value="divertissement">🎮 Divertissement</option>
+                        <option value="sante">🏥 Santé</option>
+                        <option value="education">📚 Éducation</option>
+                        <option value="autres">📦 Autres</option>
+                    </select>
+                    <button type="submit" class="btn btn-success">Ajouter</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Liste des Dépenses -->
+        <section class="expense-list-section">
+            <h2>📋 Liste des Dépenses</h2>
+            <div id="expense-list" class="expense-list">
+                <!-- Les dépenses seront ajoutées dynamiquement ici -->
+            </div>
+            <div id="empty-state" class="empty-state">
+                <p>Aucune dépense enregistrée pour le moment</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
